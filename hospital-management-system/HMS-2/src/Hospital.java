@@ -1,0 +1,54 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+class Hospital {
+    private Queue<Patient> appointment;
+    private Map<String, String> patientHistory;
+    private BST agePriorityTree;
+
+    public Hospital() {
+        appointment = new PriorityQueue<>((p1, p2) -> Integer.compare(p2.age, p1.age));
+        patientHistory = new HashMap<>();
+        agePriorityTree = BST.nill; 
+    }
+
+    public void addPatient(String name, int age, String history) {
+        Patient newPatient = new Patient(name, age, history);
+        appointment.add(newPatient);
+        patientHistory.put(name, history);
+        agePriorityTree = agePriorityTree.add(newPatient);
+    }
+
+    public void findPatientHistory(String name) {
+        if (patientHistory.containsKey(name)) {
+            System.out.println("History of " + name + ": " + patientHistory.get(name));
+        } else {
+            System.out.println("No history found for " + name + ".");
+        }
+    }
+
+    public void scheduleAppointment() {
+        if (appointment.isEmpty()) {
+            System.out.println("No appointments scheduled.");
+            return;
+        }
+        Patient nextPatient = appointment.poll();
+        System.out.println("Scheduled appointment for: " + nextPatient.name + ", Age: " + nextPatient.age);
+    }
+
+    public void displayAppointments() {
+        if (appointment.isEmpty()) {
+            System.out.println("No appointments scheduled.");
+            return;
+        }
+
+        System.out.println("Scheduled Appointments:");
+        for (Patient patient : appointment) {
+            System.out.println("Name: " + patient.name + ", Age: " + patient.age);
+        }
+    }
+
+    
+}
